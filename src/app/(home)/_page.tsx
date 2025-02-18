@@ -6,7 +6,7 @@ import { getTodayISO } from "@/utils/dates"
 import { createClient } from "@/utils/supabase/server"
 import { DateNav } from "@/components/date-nav"
 
-const joke = { setup: "SETUP", id: "ID" }
+// const joke = { setup: "SETUP", id: "ID" }
 
 export default async function Home() {
   const today = getTodayISO()
