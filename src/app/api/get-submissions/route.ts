@@ -2,10 +2,10 @@ import { createClient } from "@/utils/supabase/server"
 import { NextRequest, NextResponse } from "next/server"
 
 export async function POST(req: NextRequest) {
-  const { jokeId, punchline } = await req.json()
+  const { jokeId } = await req.json()
 
-  if (punchline == null) {
-    return errorResponse("No punchline")
+  if (jokeId == null) {
+    return errorResponse("No joke ID")
   }
 
   const supabase = await createClient()
@@ -24,22 +24,21 @@ export async function POST(req: NextRequest) {
     return errorResponse(`Invalid joke (id=${jokeId})`)
   }
 
-  const { setup } = joke.data
-  const submission = await supabase
+  const submissions = await supabase
     .from("submissions")
-    .insert([{ joke_id: jokeId, user_id: userId, setup, punchline }])
     .select("*")
-    .single()
+    .eq("joke_id", jokeId)
+    .order("created_at", { ascending: false })
 
-  if (submission.error != null) {
-    console.log(submission.error)
-    return errorResponse("Error saving submission")
+  if (submissions.error != null) {
+    console.log(submissions.error)
+    return errorResponse("Error fetching submissions")
   }
 
   return NextResponse.json(
     {
       status: "success",
-      data: submission.data,
+      data: submissions.data,
     },
     { status: 200 }
   )

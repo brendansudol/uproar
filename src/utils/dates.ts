@@ -14,3 +14,12 @@ export function isToday(dateISO: string): boolean {
 export function isFuture(dateISO: string): boolean {
   return dateISO > getTodayISO()
 }
+
+export function parseISO(dateISO: string): DateTime {
+  return DateTime.fromISO(dateISO, { zone: TIME_ZONE })
+}
+
+export function validateDate(maybeDateISO: string): string | undefined {
+  const dateISO = parseISO(maybeDateISO).toISODate()
+  return dateISO ?? undefined
+}
