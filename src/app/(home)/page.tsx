@@ -1,16 +1,42 @@
 "use client"
 
 import Image from "next/image"
-import { useState } from "react"
+import { useEffect, useState, type FormEvent } from "react"
 import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea"
 import { SAMPLE_JOKES } from "@/lib/sample-data"
 
 export default function Home() {
-  const jokeCount = SAMPLE_JOKES.length
+  const [userPunchline, setUserPunchline] = useState("")
+  const [submittedPunchline, setSubmittedPunchline] = useState<string | null>(null)
+  const [isRevealed, setIsRevealed] = useState(false)
+
   const [currentIndex, setCurrentIndex] = useState(0)
+  const jokeCount = SAMPLE_JOKES.length
   const goToPrevious = () => setCurrentIndex((prev) => (prev - 1 + jokeCount) % jokeCount)
   const goToNext = () => setCurrentIndex((prev) => (prev + 1) % jokeCount)
+
   const joke = SAMPLE_JOKES[currentIndex % jokeCount]
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const trimmed = userPunchline.trim()
+    if (trimmed.length === 0) return
+    setSubmittedPunchline(trimmed)
+    setIsRevealed(true)
+  }
+
+  const handleReveal = () => {
+    const trimmed = userPunchline.trim()
+    setSubmittedPunchline(trimmed.length > 0 ? trimmed : null)
+    setIsRevealed(true)
+  }
+
+  useEffect(() => {
+    setUserPunchline("")
+    setSubmittedPunchline(null)
+    setIsRevealed(false)
+  }, [currentIndex])
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -35,13 +61,41 @@ export default function Home() {
               </div>
               <div className="space-y-4">
                 <h1 className="text-2xl font-semibold text-gray-900 leading-tight">{joke.setup}</h1>
-                <p className="text-lg text-gray-700">{joke.punchline}</p>
-              </div>
-              <div className="mt-6 flex flex-wrap items-center justify-between gap-2 text-sm text-gray-500">
-                <span>{joke.source}</span>
-                {joke.tags ? (
-                  <span className="truncate max-w-full sm:max-w-xs text-right">{joke.tags}</span>
-                ) : null}
+                {!isRevealed ? (
+                  <form className="space-y-4" onSubmit={handleSubmit}>
+                    <Textarea
+                      value={userPunchline}
+                      onChange={(event) => setUserPunchline(event.target.value)}
+                      placeholder="Type your punchline here..."
+                      aria-label="Your punchline"
+                    />
+                    <div className="flex flex-wrap justify-end gap-3">
+                      <Button variant="outline" type="button" onClick={handleReveal}>
+                        Reveal official punchline
+                      </Button>
+                      <Button type="submit" disabled={userPunchline.trim().length === 0}>
+                        Submit punchline
+                      </Button>
+                    </div>
+                  </form>
+                ) : (
+                  <div className="space-y-2 rounded-lg border border-gray-200 bg-gray-50 p-4">
+                    {submittedPunchline != null && (
+                      <div>
+                        <p className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
+                          Your punchline
+                        </p>
+                        <p className="text-base text-gray-900">{submittedPunchline}</p>
+                      </div>
+                    )}
+                    <div>
+                      <p className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
+                        Official punchline
+                      </p>
+                      <p className="text-base text-gray-900">{joke.punchline}</p>
+                    </div>
+                  </div>
+                )}
               </div>
             </>
           ) : (
