@@ -172,3 +172,45 @@ export const SAMPLE_JOKES = [
     punchline: 'The other two out of three describe themselves as "not rich."',
   },
 ]
+
+export const COMMUNITY_SUBMISSIONS = [
+  {
+    id: 1,
+    author: "GiggleGoblin",
+    punchline: "Because even ghosts need a side hustle.",
+    upvotes: 128,
+    downvotes: 7,
+  },
+  {
+    id: 2,
+    author: "PunchUpPal",
+    punchline: "Turns out the haunting fee doubled once she moved in.",
+    upvotes: 94,
+    downvotes: 12,
+  },
+  {
+    id: 3,
+    author: "SetUpSam",
+    punchline: "Cheaper than therapy, louder than roommates.",
+    upvotes: 71,
+    downvotes: 4,
+  },
+]
+
+export const DEFAULT_ANALYSIS = [
+  {
+    id: "premise-fit",
+    title: "Premise fit",
+    body: "The official punchline leans into the headline absurdity. Look for unexpected verbs or occupations to heighten the contrast.",
+  },
+  {
+    id: "pace",
+    title: "Pace & length",
+    body: "Short, declarative endings land hardest for monologue-style jokes. Trim excess clauses and land on a crisp reveal.",
+  },
+  {
+    id: "tags",
+    title: "Tag potential",
+    body: "Add a second beat that escalates the stakes—think about who else would react badly to the reveal.",
+  },
+]
