@@ -8,6 +8,9 @@ export function SignIn() {
     const supabase = createClient()
     const redirectTo = getURL("/auth/callback")
 
+    // TODO (bsudol): remove!
+    console.log("redirectTo:", redirectTo)
+
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: { redirectTo },

@@ -1,21 +1,20 @@
-export function getURL(path: string = "") {
-  // Check if NEXT_PUBLIC_SITE_URL is set and non-empty. Set this to your site URL in production env.
-  let url =
-    process?.env?.NEXT_PUBLIC_SITE_URL && process.env.NEXT_PUBLIC_SITE_URL.trim() !== ""
-      ? process.env.NEXT_PUBLIC_SITE_URL
-      : // If not set, check for VERCEL_URL, which is automatically set by Vercel.
-      process?.env?.VERCEL_URL && process.env.VERCEL_URL.trim() !== ""
-      ? process.env.VERCEL_URL
-      : // If neither is set, default to localhost for local development.
-        "http://localhost:3000/"
+export function getURL(path = ""): string {
+  const rawBase = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"
+  const base = normalizeBase(rawBase)
+  return new URL(path, base).toString()
+}
 
-  // Trim the URL and remove trailing slash if exists.
-  url = url.replace(/\/+$/, "")
-  // Make sure to include `https://` when not localhost.
-  url = url.includes("http") ? url : `https://${url}`
-  // Ensure path starts without a slash to avoid double slashes in the final URL.
-  path = path.replace(/^\/+/, "")
+function normalizeBase(raw: string): string {
+  let url = raw.trim()
 
-  // Concatenate the URL and the path.
-  return path ? `${url}/${path}` : url
+  // Add protocol if missing. Use http for localhost, https otherwise.
+  if (!/^https?:\/\//i.test(url)) {
+    const isLocal = /^localhost(?::\d+)?(\/|$)/i.test(url)
+    url = `${isLocal ? "http" : "https"}://${url}`
+  }
+
+  // Ensure trailing slash so URL(base, path) works consistently
+  if (!url.endsWith("/")) url += "/"
+
+  return url
 }
