@@ -35,11 +35,13 @@ export function Main() {
     setIsRevealed(true)
   }
 
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     setUserPunchline("")
     setSubmittedPunchline(null)
     setIsRevealed(false)
   }, [currentIndex])
+  /* eslint-enable */
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 sm:p-8">

@@ -1,9 +1,9 @@
 "use client"
 
-import { DropdownMenuItem } from "@/components/ui/dropdown-menu"
-import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
 import { useTransition } from "react"
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu"
+import { createClient } from "@/lib/supabase/client"
 
 export function SignOutMenuItem() {
   const router = useRouter()
