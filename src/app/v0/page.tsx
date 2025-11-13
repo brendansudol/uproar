@@ -2,18 +2,9 @@ import { CircleQuestionMarkIcon, LifeBuoyIcon } from "lucide-react"
 import Image from "next/image"
 import { AuthButton } from "@/components/auth/auth-button"
 import { Button } from "@/components/ui/button"
-import { getTodayISO } from "@/lib/dates"
-import { createClient } from "@/lib/supabase/server"
+import { Main } from "./_components/main"
 
 export default async function Home() {
-  const today = getTodayISO()
-  const supabase = await createClient()
-  const { data: joke } = await supabase
-    .from("jokes")
-    .select("*")
-    .eq("active_date", "2025-01-01")
-    .single()
-
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8">
@@ -29,7 +20,7 @@ export default async function Home() {
             <AuthButton />
           </div>
         </header>
-        <pre>{JSON.stringify({ joke, today }, null, 2)}</pre>
+        <Main />
       </div>
     </div>
   )
