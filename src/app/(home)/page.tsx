@@ -2,8 +2,10 @@ import { CircleQuestionMarkIcon, LifeBuoyIcon } from "lucide-react"
 import Image from "next/image"
 import { AuthButton } from "@/components/auth/auth-button"
 import { Button } from "@/components/ui/button"
+import { Separator } from "@/components/ui/separator"
 import { getTodayISO } from "@/lib/dates"
 import { createClient } from "@/lib/supabase/server"
+import { Main } from "./_components/main"
 
 export default async function Home() {
   const today = getTodayISO()
@@ -30,6 +32,8 @@ export default async function Home() {
           </div>
         </header>
         <pre>{JSON.stringify({ joke, today }, null, 2)}</pre>
+        <Separator className="my-4" />
+        <Main />
       </div>
     </div>
   )

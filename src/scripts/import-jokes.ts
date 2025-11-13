@@ -1,8 +1,8 @@
 import "dotenv/config"
-import fs from "fs"
-import path from "path"
 import { createClient } from "@supabase/supabase-js"
+import fs from "fs"
 import { DateTime } from "luxon"
+import path from "path"
 
 const START_DATE = DateTime.fromISO("2025-01-01", { zone: "utc" })
 
@@ -15,8 +15,9 @@ async function main() {
   const jsonPath = path.join(process.cwd(), "src/data/jokes.json")
   const raw = fs.readFileSync(jsonPath, "utf8")
   const data = JSON.parse(raw)
-
   const sample = data.slice(0, 10)
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const formatted = sample.map((item: any, idx: number) => {
     return {
       setup: item.setup,
