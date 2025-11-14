@@ -4,6 +4,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { fetchPost } from "@/lib/utils"
+import { Separator } from "@/components/ui/separator"
 
 export function Main() {
   const [punchline, setPunchline] = useState("")
@@ -31,6 +32,17 @@ export function Main() {
     }
   }
 
+  const handleGetSubmissions = async () => {
+    try {
+      const data = await fetchPost("/api/get-submissions", {
+        jokeId: "TODO",
+      })
+      console.log(data)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 sm:p-8">
       <div className="space-y-4">
@@ -52,6 +64,14 @@ export function Main() {
             Submit
           </Button>
         </div>
+      </div>
+
+      <Separator className="my-6" />
+
+      <div>
+        <Button variant="outline" onClick={handleGetSubmissions}>
+          View submissions
+        </Button>
       </div>
     </div>
   )

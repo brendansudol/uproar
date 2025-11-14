@@ -53,7 +53,13 @@ export async function POST(req: NextRequest) {
       return errorResponse("Failed to create submission.")
     }
 
-    return NextResponse.json({ ok: true, data: submission.data }, { status: 200 })
+    return NextResponse.json(
+      {
+        ok: true,
+        data: submission.data,
+      },
+      { status: 200 }
+    )
   } catch (error) {
     console.error("[POST /api/submit-joke] Error:", error)
     return errorResponse("Internal server error.")
