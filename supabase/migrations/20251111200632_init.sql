@@ -12,7 +12,7 @@ create table jokes (
   setup       text not null,
   punchline   text,
   active_date date,
-  created_at  timestamptz not null default now()
+  metadata    jsonb
 );
 
 alter table jokes enable row level security;
@@ -34,7 +34,9 @@ create table submissions (
   punchline   text not null,
   status      text,
   feedback    jsonb,
-  created_at  timestamptz not null default now()
+  created_at  timestamptz not null default now(),
+
+  constraint submissions_user_joke_uniq unique (user_id, joke_id)
 );
 
 alter table submissions enable row level security;
@@ -68,11 +70,10 @@ create table votes (
   submission_id uuid not null references submissions(id) on delete cascade,
   user_id       uuid not null references auth.users(id) on delete cascade,
   score         smallint not null,
-  created_at    timestamptz not null default now()
-);
+  created_at    timestamptz not null default now(),
 
--- Prevent duplicate votes per user per submission
-create unique index votes_submission_user_idx on votes (submission_id, user_id);
+  constraint votes_submission_user_uniq unique (submission_id, user_id)
+);
 
 alter table votes enable row level security;
 
