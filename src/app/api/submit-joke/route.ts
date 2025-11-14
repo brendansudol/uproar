@@ -1,14 +1,65 @@
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
+import { analyzeJoke, moderateJokeSubmission } from "@/lib/ai"
+import { createClient } from "@/lib/supabase/server"
 
-type SubmitJokePayload = {
+interface Payload {
   jokeId: string
   punchline: string
 }
 
-export async function POST(request: Request) {
-  const { jokeId, punchline } = (await request.json()) as SubmitJokePayload
-  void jokeId
-  void punchline
+export async function POST(req: NextRequest) {
+  try {
+    const { jokeId, punchline } = (await req.json()) as Payload
 
-  return NextResponse.json({ status: "pending" })
+    if (punchline == null || punchline.length === 0) {
+      return errorResponse("No punchline provided.", 400)
+    }
+
+    const supabase = await createClient()
+    const { data: userData } = await supabase.auth.getUser()
+    const userId = userData.user?.id
+
+    if (userId == null) {
+      return errorResponse("User not authenticated.", 401)
+    }
+
+    const joke = await supabase.from("jokes").select("*").eq("id", jokeId).single()
+
+    if (joke.error != null) {
+      return errorResponse("Joke not found.", 404)
+    }
+
+    const moderation = await moderateJokeSubmission(punchline)
+    console.log("Moderation result:", moderation)
+
+    if (moderation.flagged) {
+      // TODO: should we log these flagged jokes somewhere?
+      return errorResponse("Joke did not pass moderation.", 400)
+    }
+
+    const { setup } = joke.data
+    const completeJoke = `${setup} ${punchline}`
+    const feedback = await analyzeJoke(completeJoke)
+    console.log("Feedback result:", feedback)
+
+    // TODO: add moderation & feedback to DB
+    const submission = await supabase
+      .from("submissions")
+      .insert([{ joke_id: jokeId, user_id: userId, setup, punchline }])
+      .select("*")
+      .single()
+
+    if (submission.error != null) {
+      return errorResponse("Failed to create submission.")
+    }
+
+    return NextResponse.json({ ok: true, data: submission.data }, { status: 200 })
+  } catch (error) {
+    console.error("[POST /api/submit-joke] Error:", error)
+    return errorResponse("Internal server error.")
+  }
+}
+
+function errorResponse(error: string, status = 500) {
+  return NextResponse.json({ ok: false, error }, { status })
 }
