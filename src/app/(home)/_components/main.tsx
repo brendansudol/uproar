@@ -10,11 +10,22 @@ export function Main() {
 
   const handleSubmit = async () => {
     try {
-      const data = await fetchPost("/api/submit-joke", {
+      const response = await fetchPost("/api/submit-joke", {
         jokeId: "TODO",
         punchline: punchline,
       })
-      console.log(data)
+      console.log(response)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const handleModerationCheck = async () => {
+    if (punchline.trim().length === 0) return
+
+    try {
+      const response = await fetchPost("/api/moderate-joke", { punchline })
+      console.log(response)
     } catch (error) {
       console.error(error)
     }
@@ -30,6 +41,13 @@ export function Main() {
           aria-label="Your punchline"
         />
         <div className="flex flex-wrap justify-end gap-3">
+          <Button
+            variant="outline"
+            disabled={punchline.length === 0}
+            onClick={handleModerationCheck}
+          >
+            Check
+          </Button>
           <Button disabled={punchline.length === 0} onClick={handleSubmit}>
             Submit
           </Button>
