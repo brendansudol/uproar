@@ -1,5 +1,6 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextRequest } from "next/server"
 import { analyzeJoke, moderateJokeSubmission } from "@/lib/ai"
+import { errorResponse, successResponse } from "@/lib/api-responses"
 import { createClient } from "@/lib/supabase/server"
 
 interface Payload {
@@ -53,19 +54,9 @@ export async function POST(req: NextRequest) {
       return errorResponse("Failed to create submission.")
     }
 
-    return NextResponse.json(
-      {
-        ok: true,
-        data: submission.data,
-      },
-      { status: 200 }
-    )
+    return successResponse({ data: submission.data })
   } catch (error) {
     console.error("[POST /api/submit-joke] Error:", error)
     return errorResponse("Internal server error.")
   }
-}
-
-function errorResponse(error: string, status = 500) {
-  return NextResponse.json({ ok: false, error }, { status })
 }

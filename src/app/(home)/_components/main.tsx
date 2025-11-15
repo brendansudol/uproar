@@ -2,9 +2,9 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
+import { Separator } from "@/components/ui/separator"
 import { Textarea } from "@/components/ui/textarea"
 import { fetchPost } from "@/lib/utils"
-import { Separator } from "@/components/ui/separator"
 
 export function Main() {
   const [punchline, setPunchline] = useState("")

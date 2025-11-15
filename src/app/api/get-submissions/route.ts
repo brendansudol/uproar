@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server"
+import { errorResponse, successResponse } from "@/lib/api-responses"
 import { createClient } from "@/lib/supabase/server"
 
 interface Payload {
@@ -13,7 +13,6 @@ export async function POST(request: Request) {
   }
 
   const supabase = await createClient()
-
   const { data: userData } = await supabase.auth.getUser()
   const userId = userData.user?.id
 
@@ -39,21 +38,7 @@ export async function POST(request: Request) {
     return errorResponse("Error fetching submissions")
   }
 
-  return NextResponse.json(
-    {
-      ok: true,
-      data: submissions.data,
-    },
-    { status: 200 }
-  )
-}
-
-function errorResponse(error: string, status = 500) {
-  return NextResponse.json(
-    {
-      ok: false,
-      error,
-    },
-    { status }
-  )
+  return successResponse({
+    data: submissions.data,
+  })
 }
