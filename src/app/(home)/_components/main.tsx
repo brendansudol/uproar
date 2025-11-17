@@ -5,17 +5,21 @@ import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Textarea } from "@/components/ui/textarea"
 import { fetchPost } from "@/lib/utils"
+import { SubmissionsList } from "./submissions-list"
 
-export function Main() {
+interface Props {
+  jokeId: string
+}
+
+export function Main({ jokeId }: Props) {
   const [punchline, setPunchline] = useState("")
+  const [hasSubmitted, setHasSubmitted] = useState(false)
 
   const handleSubmit = async () => {
     try {
-      const response = await fetchPost("/api/submit-joke", {
-        jokeId: "TODO",
-        punchline: punchline,
-      })
+      const response = await fetchPost("/api/submit-joke", { jokeId, punchline })
       console.log(response)
+      setHasSubmitted(true)
     } catch (error) {
       console.error(error)
     }
@@ -27,17 +31,6 @@ export function Main() {
     try {
       const response = await fetchPost("/api/moderate-joke", { punchline })
       console.log(response)
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
-  const handleGetSubmissions = async () => {
-    try {
-      const data = await fetchPost("/api/get-submissions", {
-        jokeId: "TODO",
-      })
-      console.log(data)
     } catch (error) {
       console.error(error)
     }
@@ -66,13 +59,12 @@ export function Main() {
         </div>
       </div>
 
-      <Separator className="my-6" />
-
-      <div>
-        <Button variant="outline" onClick={handleGetSubmissions}>
-          View submissions
-        </Button>
-      </div>
+      {hasSubmitted && (
+        <>
+          <Separator className="my-6" />
+          <SubmissionsList jokeId={jokeId} />
+        </>
+      )}
     </div>
   )
 }

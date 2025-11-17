@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
     // TODO: add moderation & feedback to DB
     const submission = await supabase
       .from("submissions")
-      .insert([{ joke_id: jokeId, user_id: userId, setup, punchline }])
+      .insert([{ joke_id: jokeId, user_id: userId, setup, punchline, feedback }])
       .select("*")
       .single()
 

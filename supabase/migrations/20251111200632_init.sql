@@ -34,9 +34,9 @@ create table submissions (
   punchline   text not null,
   status      text,
   feedback    jsonb,
-  created_at  timestamptz not null default now(),
+  created_at  timestamptz not null default now()
 
-  constraint submissions_user_joke_uniq unique (user_id, joke_id)
+  -- constraint submissions_user_joke_uniq unique (user_id, joke_id)
 );
 
 alter table submissions enable row level security;
@@ -70,9 +70,9 @@ create table votes (
   submission_id uuid not null references submissions(id) on delete cascade,
   user_id       uuid not null references auth.users(id) on delete cascade,
   score         smallint not null,
-  created_at    timestamptz not null default now(),
+  created_at    timestamptz not null default now()
 
-  constraint votes_submission_user_uniq unique (submission_id, user_id)
+  -- constraint votes_submission_user_uniq unique (submission_id, user_id)
 );
 
 alter table votes enable row level security;
@@ -105,11 +105,9 @@ create table favorites (
   submission_id  uuid not null references submissions(id) on delete cascade,
   user_id        uuid not null references auth.users(id) on delete cascade,
   created_at     timestamptz not null default now()
-);
 
--- Prevent duplicate favorites by the same user on the same submission
-create unique index favorites_user_submission_unique
-  on favorites (user_id, submission_id);
+  -- constraint favorites_user_submission_uniq unique (user_id, submission_id)
+);
 
 alter table favorites enable row level security;
 
