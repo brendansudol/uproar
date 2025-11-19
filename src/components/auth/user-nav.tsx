@@ -38,9 +38,6 @@ export function UserNav({ user }: Props) {
         <DropdownMenuItem asChild>
           <Link href="/todo">TODO</Link>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link href="/todo">TODO2</Link>
-        </DropdownMenuItem>
 
         <DropdownMenuSeparator />
 
