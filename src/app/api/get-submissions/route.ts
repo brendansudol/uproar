@@ -29,7 +29,7 @@ export async function POST(request: Request) {
 
   const submissions = await supabase
     .from("submissions")
-    .select("*")
+    .select("id, setup, punchline, createdAt:created_at, analysis")
     .eq("joke_id", jokeId)
     .order("created_at", { ascending: false })
 

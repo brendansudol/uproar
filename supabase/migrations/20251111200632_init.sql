@@ -12,6 +12,7 @@ create table jokes (
   setup       text not null,
   punchline   text,
   active_date date,
+  commentary  jsonb,
   metadata    jsonb
 );
 
@@ -33,7 +34,7 @@ create table submissions (
   setup       text not null,
   punchline   text not null,
   status      text,
-  feedback    jsonb,
+  analysis    jsonb,
   created_at  timestamptz not null default now()
 
   -- constraint submissions_user_joke_uniq unique (user_id, joke_id)

@@ -40,13 +40,12 @@ export async function POST(req: NextRequest) {
 
     const { setup } = joke.data
     const completeJoke = `${setup} ${punchline}`
-    const feedback = await analyzeJoke(completeJoke)
-    console.log("Feedback result:", feedback)
+    const analysis = await analyzeJoke(completeJoke)
+    console.log("Joke analysis:", analysis)
 
-    // TODO: add moderation & feedback to DB
     const submission = await supabase
       .from("submissions")
-      .insert([{ joke_id: jokeId, user_id: userId, setup, punchline, feedback }])
+      .insert([{ joke_id: jokeId, user_id: userId, setup, punchline, analysis }])
       .select("*")
       .single()
 

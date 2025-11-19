@@ -43,7 +43,7 @@ export function SubmissionsList({ jokeId }: Props) {
               <strong>Punchline:</strong> {submission.punchline}
             </div>
             <div>
-              <strong>Feedback:</strong> {JSON.stringify(submission.feedback)}
+              <strong>Analysis:</strong> {JSON.stringify(submission.analysis)}
             </div>
           </div>
         ))

@@ -5,7 +5,7 @@ export async function getJoke(dateISO: string = "2025-01-01") {
 
   const { data, error } = await supabase
     .from("jokes")
-    .select("*")
+    .select("id, setup, punchline, commentary, activeDate:active_date")
     .eq("active_date", dateISO)
     .single()
 
@@ -28,7 +28,7 @@ export async function getUserSubmission(jokeId: string) {
 
   const { data, error } = await supabase
     .from("submissions")
-    .select("*")
+    .select("id, setup, punchline, createdAt:created_at, analysis")
     .eq("joke_id", jokeId)
     .eq("user_id", userId)
     .limit(1)
