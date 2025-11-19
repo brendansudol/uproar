@@ -6,6 +6,7 @@ import { Separator } from "@/components/ui/separator"
 import { Textarea } from "@/components/ui/textarea"
 import { fetchPost } from "@/lib/utils"
 import { Joke } from "@/types"
+import { JokeSetup } from "./joke-setup"
 import { SubmissionsList } from "./submissions-list"
 
 interface Props {
@@ -32,28 +33,30 @@ export function JokeInProgress({ joke }: Props) {
   }, [joke])
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 sm:p-8">
-      <div className="space-y-4">
-        <div>{joke.setup}</div>
-        <Textarea
-          value={punchline}
-          onChange={(event) => setPunchline(event.target.value)}
-          placeholder="Type your punchline here..."
-          aria-label="Your punchline"
-        />
-        <div className="flex flex-wrap justify-end gap-3">
-          <Button disabled={punchline.length === 0} onClick={handleSubmit}>
-            Submit
-          </Button>
+    <div className="space-y-6">
+      <JokeSetup joke={joke} />
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 sm:p-8">
+        <div className="space-y-6">
+          <Textarea
+            value={punchline}
+            onChange={(event) => setPunchline(event.target.value)}
+            placeholder="Type your punchline here..."
+            aria-label="Your punchline"
+          />
+          <div className="flex flex-wrap justify-end gap-3">
+            <Button disabled={punchline.length === 0} onClick={handleSubmit}>
+              Submit
+            </Button>
+          </div>
         </div>
-      </div>
 
-      {hasSubmitted && (
-        <>
-          <Separator className="my-6" />
-          <SubmissionsList jokeId={jokeId} />
-        </>
-      )}
+        {hasSubmitted && (
+          <>
+            <Separator className="my-6" />
+            <SubmissionsList jokeId={jokeId} />
+          </>
+        )}
+      </div>
     </div>
   )
 }
