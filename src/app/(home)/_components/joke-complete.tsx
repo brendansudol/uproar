@@ -1,7 +1,8 @@
 import { Joke, Submission } from "@/types"
-import { JokeSetup } from "./joke-setup"
-import { JokePunchlineFromUser } from "./joke-punchline-user"
+import { CommunitySubmissions } from "./community-submissions"
 import { JokePunchlineFromComedian } from "./joke-punchline-comedian"
+import { JokePunchlineFromUser } from "./joke-punchline-user"
+import { JokeSetup } from "./joke-setup"
 
 interface Props {
   joke: Joke
@@ -13,7 +14,8 @@ export async function JokeComplete({ joke, userSubmission }: Props) {
     <div className="space-y-6">
       <JokeSetup joke={joke} />
       <JokePunchlineFromUser submission={userSubmission} />
-      {joke.punchline != null && <JokePunchlineFromComedian punchline={joke.punchline} />}
+      <JokePunchlineFromComedian joke={joke} />
+      <CommunitySubmissions jokeId={joke.id} />
     </div>
   )
 }

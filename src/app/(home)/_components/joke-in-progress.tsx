@@ -3,11 +3,11 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
+import { Spinner } from "@/components/ui/spinner"
 import { Textarea } from "@/components/ui/textarea"
 import { fetchPost } from "@/lib/utils"
 import { Joke, Submission } from "@/types"
 import { JokeSetup } from "./joke-setup"
-import { Spinner } from "@/components/ui/spinner"
 
 interface Props {
   joke: Joke
