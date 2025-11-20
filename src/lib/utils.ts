@@ -18,5 +18,5 @@ export async function fetchPost<T extends Record<string, unknown>>(url: string, 
     console.log(`${url} response:`, data)
   }
 
-  return data
+  return { status: response.status, ...data }
 }
