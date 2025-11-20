@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
     const submission = await supabase
       .from("submissions")
       .insert([{ joke_id: jokeId, user_id: userId, setup, punchline, analysis }])
-      .select("*")
+      .select("id, setup, punchline, createdAt:created_at, analysis")
       .single()
 
     if (submission.error != null) {

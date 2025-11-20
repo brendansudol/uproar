@@ -5,12 +5,18 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export async function fetchPost<T extends Record<string, unknown>>(url: string, data?: T) {
+export async function fetchPost<T extends Record<string, unknown>>(url: string, params?: T) {
   const response = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
+    body: JSON.stringify(params),
   })
 
-  return response.json()
+  const data = await response.json()
+
+  if (process.env.NODE_ENV === "development") {
+    console.log(`${url} response:`, data)
+  }
+
+  return data
 }

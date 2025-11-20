@@ -3,7 +3,7 @@ import { Header } from "@/components/header"
 import { getJoke } from "@/lib/supabase/queries"
 import { Main } from "./_components/main"
 
-const DATE = "2025-01-04"
+const DATE = "2025-01-05"
 
 export default async function Home() {
   const joke = await getJoke(DATE)

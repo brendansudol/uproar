@@ -8,8 +8,8 @@ interface Props {
 }
 
 export async function Main({ joke }: Props) {
-  const userEntry = await getUserSubmission(joke.id)
+  const userSubmission = await getUserSubmission(joke.id)
 
-  if (userEntry == null) return <JokeInProgress joke={joke} />
-  else return <JokeComplete joke={joke} userEntry={userEntry} />
+  if (userSubmission == null) return <JokeInProgress joke={joke} />
+  else return <JokeComplete joke={joke} userSubmission={userSubmission} />
 }
