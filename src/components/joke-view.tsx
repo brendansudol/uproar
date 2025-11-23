@@ -7,7 +7,7 @@ interface Props {
   joke: Joke
 }
 
-export async function Main({ joke }: Props) {
+export async function JokeView({ joke }: Props) {
   const userSubmission = await getUserSubmission(joke.id)
 
   if (userSubmission == null) return <JokeInProgress joke={joke} />

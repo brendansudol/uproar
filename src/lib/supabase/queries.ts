@@ -7,7 +7,7 @@ export async function getJoke(dateISO: string = "2025-01-01") {
     .from("jokes")
     .select("id, setup, punchline, commentary, activeDate:active_date")
     .eq("active_date", dateISO)
-    .single()
+    .maybeSingle()
 
   if (error) {
     throw new Error(error.message)

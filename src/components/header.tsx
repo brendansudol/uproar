@@ -1,4 +1,4 @@
-import { CircleQuestionMarkIcon, LifeBuoyIcon } from "lucide-react"
+import { CircleQuestionMarkIcon } from "lucide-react"
 import Image from "next/image"
 import { AuthButton } from "@/components/auth/auth-button"
 import { Button } from "@/components/ui/button"
@@ -10,9 +10,6 @@ export function Header() {
       <div className="flex items-center gap-2">
         <Button variant="outline" size="icon-sm" aria-label="Submit">
           <CircleQuestionMarkIcon />
-        </Button>
-        <Button variant="outline" size="icon-sm" aria-label="Submit">
-          <LifeBuoyIcon />
         </Button>
         <AuthButton />
       </div>

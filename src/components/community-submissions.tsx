@@ -1,8 +1,7 @@
 "use client"
 
+import { FrownIcon } from "lucide-react"
 import { useEffect, useState } from "react"
-import { fetchPost } from "@/lib/utils"
-import { Submission } from "@/types"
 import { Button } from "@/components/ui/button"
 import {
   Empty,
@@ -12,8 +11,8 @@ import {
   EmptyDescription,
   EmptyContent,
 } from "@/components/ui/empty"
-import { CloudIcon, FrownIcon, Icon } from "lucide-react"
-import { Spinner } from "@/components/ui/spinner"
+import { fetchPost } from "@/lib/utils"
+import { Submission } from "@/types"
 
 interface Props {
   jokeId: string
