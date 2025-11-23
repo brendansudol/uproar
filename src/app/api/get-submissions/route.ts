@@ -3,10 +3,11 @@ import { createClient } from "@/lib/supabase/server"
 
 interface Payload {
   jokeId: string
+  excludeCurrentUser?: boolean
 }
 
 export async function POST(request: Request) {
-  const { jokeId } = (await request.json()) as Payload
+  const { jokeId, excludeCurrentUser = true } = (await request.json()) as Payload
 
   if (jokeId == null) {
     return errorResponse("No joke specified")
@@ -27,11 +28,16 @@ export async function POST(request: Request) {
     return errorResponse(`Invalid joke (id=${jokeId})`)
   }
 
-  const submissions = await supabase
+  let submissionsQuery = supabase
     .from("submissions")
     .select("id, setup, punchline, createdAt:created_at, analysis")
     .eq("joke_id", jokeId)
-    .order("created_at", { ascending: false })
+
+  if (excludeCurrentUser === true) {
+    submissionsQuery = submissionsQuery.neq("user_id", userId)
+  }
+
+  const submissions = await submissionsQuery.order("created_at", { ascending: false })
 
   if (submissions.error != null) {
     console.log(submissions.error)

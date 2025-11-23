@@ -3,6 +3,17 @@
 import { useEffect, useState } from "react"
 import { fetchPost } from "@/lib/utils"
 import { Submission } from "@/types"
+import { Button } from "@/components/ui/button"
+import {
+  Empty,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+  EmptyDescription,
+  EmptyContent,
+} from "@/components/ui/empty"
+import { CloudIcon, FrownIcon, Icon } from "lucide-react"
+import { Spinner } from "@/components/ui/spinner"
 
 interface Props {
   jokeId: string
@@ -15,7 +26,10 @@ export function CommunitySubmissions({ jokeId }: Props) {
   const loadSubmissions = async () => {
     try {
       setIsLoading(true)
-      const data = await fetchPost("/api/get-submissions", { jokeId })
+      const data = await fetchPost("/api/get-submissions", {
+        jokeId,
+        excludeCurrentUser: true,
+      })
       console.log(data)
       setSubmissions(data.data as Submission[])
     } catch (error) {
@@ -39,7 +53,24 @@ export function CommunitySubmissions({ jokeId }: Props) {
       </header>
       <div>
         {isLoading ? (
-          <div>Loading...</div>
+          <div>Loading…</div>
+        ) : submissions.length === 0 ? (
+          <Empty className="border border-dashed">
+            <EmptyHeader>
+              <EmptyMedia variant="icon">
+                <FrownIcon />
+              </EmptyMedia>
+              <EmptyTitle>No results</EmptyTitle>
+              <EmptyDescription>
+                No community submissions yet. Please check back later.
+              </EmptyDescription>
+            </EmptyHeader>
+            <EmptyContent>
+              <Button variant="outline" size="sm" onClick={loadSubmissions}>
+                Refresh
+              </Button>
+            </EmptyContent>
+          </Empty>
         ) : (
           submissions.map((submission) => (
             <div key={submission.id} className="border p-4 my-2 rounded">
