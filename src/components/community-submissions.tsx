@@ -11,6 +11,7 @@ import {
   EmptyDescription,
   EmptyContent,
 } from "@/components/ui/empty"
+import { Spinner } from "@/components/ui/spinner"
 import { fetchPost } from "@/lib/utils"
 import { Submission } from "@/types"
 
@@ -43,49 +44,53 @@ export function CommunitySubmissions({ jokeId }: Props) {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 sm:p-8">
-      <header className="mb-4 flex items-start justify-between gap-3">
+    <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 sm:p-8 space-y-4">
+      <header className="flex items-start justify-between gap-3">
         <div className="text-md font-semibold uppercase tracking-wide bg-yellow-200">
           Community submissions
         </div>
-        <div className="text-sm text-gray-500">{"TODO"}</div>
-      </header>
-      <div>
-        {isLoading ? (
-          <div>Loading…</div>
-        ) : submissions.length === 0 ? (
-          <Empty className="border border-dashed">
-            <EmptyHeader>
-              <EmptyMedia variant="icon">
-                <FrownIcon />
-              </EmptyMedia>
-              <EmptyTitle>No results</EmptyTitle>
-              <EmptyDescription>
-                No community submissions yet. Please check back later.
-              </EmptyDescription>
-            </EmptyHeader>
-            <EmptyContent>
-              <Button variant="outline" size="sm" onClick={loadSubmissions}>
-                Refresh
-              </Button>
-            </EmptyContent>
-          </Empty>
-        ) : (
-          submissions.map((submission) => (
-            <div key={submission.id} className="border p-4 my-2 rounded">
-              <div>
-                <strong>Setup:</strong> {submission.setup}
-              </div>
-              <div>
-                <strong>Punchline:</strong> {submission.punchline}
-              </div>
-              <div>
-                <strong>Analysis:</strong> {JSON.stringify(submission.analysis)}
-              </div>
-            </div>
-          ))
+        {isLoading && (
+          <div className="text-sm text-gray-500">
+            <Spinner className="size-5" />
+          </div>
         )}
-      </div>
+      </header>
+      {!isLoading && (
+        <div>
+          {submissions.length === 0 ? (
+            <Empty className="border border-dashed">
+              <EmptyHeader>
+                <EmptyMedia variant="icon">
+                  <FrownIcon />
+                </EmptyMedia>
+                <EmptyTitle>No results</EmptyTitle>
+                <EmptyDescription>
+                  No community submissions yet. Please check back later.
+                </EmptyDescription>
+              </EmptyHeader>
+              <EmptyContent>
+                <Button variant="outline" size="sm" onClick={loadSubmissions}>
+                  Refresh
+                </Button>
+              </EmptyContent>
+            </Empty>
+          ) : (
+            submissions.map((submission) => (
+              <div key={submission.id} className="border p-4 my-2 rounded">
+                <div>
+                  <strong>Setup:</strong> {submission.setup}
+                </div>
+                <div>
+                  <strong>Punchline:</strong> {submission.punchline}
+                </div>
+                <div>
+                  <strong>Analysis:</strong> {JSON.stringify(submission.analysis)}
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      )}
     </section>
   )
 }
