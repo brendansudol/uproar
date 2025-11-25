@@ -56,7 +56,7 @@ export async function POST(request: Request) {
     .eq("user_id", userId)
     .in(
       "submission_id",
-      results.map((submission) => submission.id)
+      results.map((submission) => submission.id),
     )
 
   if (favorites.error != null) {

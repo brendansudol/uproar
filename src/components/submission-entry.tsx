@@ -73,13 +73,13 @@ export function SubmissionEntry({ submission }: Props) {
             onClick={handleFavoriteToggle}
             className={cn(
               "border border-rose-200 text-rose-600 hover:bg-rose-50",
-              isFavorited && "bg-rose-50 text-rose-700 hover:bg-rose-100"
+              isFavorited && "bg-rose-50 text-rose-700 hover:bg-rose-100",
             )}
           >
             <HeartIcon
               className={cn(
                 "size-4",
-                isFavorited ? "fill-rose-500 text-rose-600" : "text-rose-500"
+                isFavorited ? "fill-rose-500 text-rose-600" : "text-rose-500",
               )}
             />
           </Button>

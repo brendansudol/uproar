@@ -22,7 +22,7 @@ export async function fetchPost<T extends Record<string, unknown>>(url: string, 
 }
 
 export function parseJokeAnalysis(
-  analysis: unknown
+  analysis: unknown,
 ): { rating: number; commentary: string } | undefined {
   if (analysis == null || typeof analysis !== "object") return
 

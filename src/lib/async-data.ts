@@ -40,7 +40,7 @@ export function isReady<T, E>(state: AsyncData<T, E>): state is AsyncLoaded<T> |
 }
 
 export function hasValue<T, E>(
-  state: AsyncData<T, E>
+  state: AsyncData<T, E>,
 ): state is AsyncLoaded<T> | AsyncReloading<T> {
   return state.status === "LOADED" || state.status === "RELOADING"
 }
@@ -54,7 +54,7 @@ export function getLoadingStartedAt<T, E>(state: AsyncData<T, E>): number | unde
 }
 
 export function getLoadingInfo<T, E>(
-  state: AsyncData<T, E>
+  state: AsyncData<T, E>,
 ): { isLoading: boolean; startedAt: number | undefined } {
   const loading = isLoading(state)
   return {

@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     if (existingFavoriteResponse.error != null) {
       console.error(
         "[POST /api/favorite-submission] Fetch favorite error:",
-        existingFavoriteResponse.error
+        existingFavoriteResponse.error,
       )
       return errorResponse("Failed to fetch favorite state.")
     }
@@ -54,7 +54,7 @@ export async function POST(request: Request) {
       if (createFavoriteResponse.error != null) {
         console.error(
           "[POST /api/favorite-submission] Create favorite error:",
-          createFavoriteResponse.error
+          createFavoriteResponse.error,
         )
         return errorResponse("Failed to favorite submission.")
       }
@@ -82,7 +82,7 @@ export async function POST(request: Request) {
     if (deleteFavoriteResponse.error != null) {
       console.error(
         "[POST /api/favorite-submission] Delete favorite error:",
-        deleteFavoriteResponse.error
+        deleteFavoriteResponse.error,
       )
       return errorResponse("Failed to unfavorite submission.")
     }

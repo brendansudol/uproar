@@ -9,7 +9,7 @@ const START_DATE = DateTime.fromISO("2025-01-01", { zone: "utc" })
 async function main() {
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SECRET_KEY!
+    process.env.SUPABASE_SECRET_KEY!,
   )
 
   const jsonPath = path.join(process.cwd(), "src/data/jokes.json")

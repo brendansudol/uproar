@@ -101,7 +101,7 @@ export async function moderateJokeSubmission(input: string): Promise<ModerationC
 
 async function callOpenAI<TResponse>(
   endpoint: string,
-  body: Record<string, unknown>
+  body: Record<string, unknown>,
 ): Promise<TResponse> {
   if (!OPENAI_API_KEY) {
     throw new Error("OPENAI_API_KEY is not configured")
