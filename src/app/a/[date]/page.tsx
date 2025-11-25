@@ -1,4 +1,5 @@
 import { notFound, redirect } from "next/navigation"
+import { Container } from "@/components/container"
 import { Header } from "@/components/header"
 import { JokeView } from "@/components/joke-view"
 import { validateDate } from "@/lib/dates"
@@ -17,11 +18,9 @@ export default async function Page({ params }: Props) {
   if (joke == null) return notFound()
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8">
-        <Header />
-        <JokeView joke={joke} />
-      </div>
-    </div>
+    <Container>
+      <Header />
+      <JokeView joke={joke} />
+    </Container>
   )
 }
