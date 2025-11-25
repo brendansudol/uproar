@@ -22,7 +22,7 @@ interface Props {
 
 export function CommunitySubmissions({ jokeId }: Props) {
   const [submissions, setSubmissions] = useState<Submission[]>([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   const loadSubmissions = async () => {
     try {

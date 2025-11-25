@@ -12,4 +12,5 @@ export interface Submission {
   punchline: string
   createdAt: string
   analysis: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  isFavorited?: boolean
 }

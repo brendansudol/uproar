@@ -44,7 +44,32 @@ export async function POST(request: Request) {
     return errorResponse("Error fetching submissions")
   }
 
+  const results = submissions.data ?? []
+
+  if (results.length === 0) {
+    return successResponse({ data: [] })
+  }
+
+  const favorites = await supabase
+    .from("favorites")
+    .select("submission_id")
+    .eq("user_id", userId)
+    .in(
+      "submission_id",
+      results.map((submission) => submission.id)
+    )
+
+  if (favorites.error != null) {
+    console.log(favorites.error)
+    return errorResponse("Error fetching submission favorites")
+  }
+
+  const favoriteIds = new Set(favorites.data.map((favorite) => favorite.submission_id))
+
   return successResponse({
-    data: submissions.data,
+    data: results.map((submission) => ({
+      ...submission,
+      isFavorited: favoriteIds.has(submission.id),
+    })),
   })
 }

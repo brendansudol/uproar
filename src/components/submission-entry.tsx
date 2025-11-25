@@ -14,7 +14,7 @@ interface Props {
 export function SubmissionEntry({ submission }: Props) {
   const analysis = parseJokeAnalysis(submission.analysis)
 
-  const [isFavorited, setIsFavorited] = useState(false)
+  const [isFavorited, setIsFavorited] = useState(submission.isFavorited ?? false)
   const [isPending, setIsPending] = useState(false)
 
   const handleFavoriteToggle = async () => {
