@@ -20,3 +20,18 @@ export async function fetchPost<T extends Record<string, unknown>>(url: string, 
 
   return data
 }
+
+export function parseJokeAnalysis(
+  analysis: unknown
+): { rating: number; commentary: string } | undefined {
+  if (analysis == null || typeof analysis !== "object") return
+
+  const { rating, analysis: commentary } = analysis as { rating?: unknown; analysis?: unknown }
+
+  if (typeof rating !== "number") return
+
+  return {
+    rating: Math.min(Math.max(rating, 0), 10),
+    commentary: typeof commentary === "string" ? commentary : "Joke analysis unavailable.",
+  }
+}

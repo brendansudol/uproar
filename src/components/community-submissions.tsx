@@ -14,6 +14,7 @@ import {
 import { Spinner } from "@/components/ui/spinner"
 import { fetchPost } from "@/lib/utils"
 import { Submission } from "@/types"
+import { SubmissionEntry } from "./submission-entry"
 
 interface Props {
   jokeId: string
@@ -30,7 +31,6 @@ export function CommunitySubmissions({ jokeId }: Props) {
         jokeId,
         excludeCurrentUser: true,
       })
-      console.log(data)
       setSubmissions(data.data as Submission[])
     } catch (error) {
       console.error(error)
@@ -56,7 +56,7 @@ export function CommunitySubmissions({ jokeId }: Props) {
         )}
       </header>
       {!isLoading && (
-        <div>
+        <div className="space-y-3">
           {submissions.length === 0 ? (
             <Empty className="border border-dashed">
               <EmptyHeader>
@@ -76,17 +76,7 @@ export function CommunitySubmissions({ jokeId }: Props) {
             </Empty>
           ) : (
             submissions.map((submission) => (
-              <div key={submission.id} className="border p-4 my-2 rounded">
-                <div>
-                  <strong>Setup:</strong> {submission.setup}
-                </div>
-                <div>
-                  <strong>Punchline:</strong> {submission.punchline}
-                </div>
-                <div>
-                  <strong>Analysis:</strong> {JSON.stringify(submission.analysis)}
-                </div>
-              </div>
+              <SubmissionEntry key={submission.id} submission={submission} />
             ))
           )}
         </div>
