@@ -55,32 +55,32 @@ export function CommunitySubmissions({ jokeId }: Props) {
           </div>
         )}
       </header>
-      {!isLoading && (
-        <div className="space-y-3">
-          {submissions.length === 0 ? (
-            <Empty className="border border-dashed">
-              <EmptyHeader>
-                <EmptyMedia variant="icon">
-                  <FrownIcon />
-                </EmptyMedia>
-                <EmptyTitle>No results</EmptyTitle>
-                <EmptyDescription>
-                  No community submissions yet. Please check back later.
-                </EmptyDescription>
-              </EmptyHeader>
-              <EmptyContent>
-                <Button variant="outline" size="sm" onClick={loadSubmissions}>
-                  Refresh
-                </Button>
-              </EmptyContent>
-            </Empty>
-          ) : (
-            submissions.map((submission) => (
-              <SubmissionEntry key={submission.id} submission={submission} />
-            ))
-          )}
-        </div>
-      )}
+      {!isLoading &&
+        (submissions.length === 0 ? (
+          <Empty className="border border-dashed">
+            <EmptyHeader>
+              <EmptyMedia variant="icon">
+                <FrownIcon />
+              </EmptyMedia>
+              <EmptyTitle>No results</EmptyTitle>
+              <EmptyDescription>
+                No community submissions yet. Please check back later.
+              </EmptyDescription>
+            </EmptyHeader>
+            <EmptyContent>
+              <Button variant="outline" size="sm" onClick={loadSubmissions}>
+                Refresh
+              </Button>
+            </EmptyContent>
+          </Empty>
+        ) : (
+          <div className="space-y-3">
+            {/* TODO: remove dupes */}
+            {[...submissions, ...submissions, ...submissions].map((submission, idx) => (
+              <SubmissionEntry key={idx} submission={submission} />
+            ))}
+          </div>
+        ))}
     </section>
   )
 }
