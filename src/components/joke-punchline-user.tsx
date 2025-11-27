@@ -20,18 +20,19 @@ export function JokePunchlineFromUser({ submission }: Props) {
       <p className="text-2xl font-semibold leading-tight text-gray-900 sm:text-2xl">
         {submission.punchline}
       </p>
-      <div className="mt-5 border-l-4 border-sky-400 bg-sky-50 p-4 dark:border-sky-500 dark:bg-sky-500/10 rounded-r-md">
-        <div className="flex">
-          <div className="shrink-0">
-            <LaughIcon className="size-5 text-sky-400 dark:text-sky-500" />
-          </div>
-          <div className="ml-3">
-            <p className="text-sm text-sky-700 dark:text-sky-300">
-              {JSON.stringify(analysis ?? {})}
-            </p>
+      {analysis != null && (
+        <div className="mt-5 border-l-4 border-sky-400 bg-sky-50 p-4 dark:border-sky-500 dark:bg-sky-500/10 rounded-r-md">
+          <div className="flex items-start gap-3">
+            <LaughIcon className="mt-0.5 size-5 shrink-0 text-sky-400 dark:text-sky-500" />
+            <div className="space-y-1">
+              <p className="text-sm font-semibold text-sky-800 dark:text-sky-100">
+                Rating: {analysis.rating} / 10
+              </p>
+              <p className="text-sm text-sky-700 dark:text-sky-300">{analysis.commentary}</p>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </section>
   )
 }
