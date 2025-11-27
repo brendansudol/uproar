@@ -1,4 +1,5 @@
 import { LaughIcon } from "lucide-react"
+import { parseJokeAnalysis } from "@/lib/utils"
 import { Submission } from "@/types"
 
 interface Props {
@@ -6,6 +7,8 @@ interface Props {
 }
 
 export function JokePunchlineFromUser({ submission }: Props) {
+  const analysis = parseJokeAnalysis(submission.analysis)
+
   return (
     <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 sm:p-8">
       <header className="mb-4 flex items-start justify-between gap-3">
@@ -24,7 +27,7 @@ export function JokePunchlineFromUser({ submission }: Props) {
           </div>
           <div className="ml-3">
             <p className="text-sm text-sky-700 dark:text-sky-300">
-              {JSON.stringify(submission.analysis ?? {})}
+              {JSON.stringify(analysis ?? {})}
             </p>
           </div>
         </div>
