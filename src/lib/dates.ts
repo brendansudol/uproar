@@ -23,3 +23,14 @@ export function validateDate(maybeDateISO: string): string | undefined {
   const dateISO = parseISO(maybeDateISO).toISODate()
   return dateISO ?? undefined
 }
+
+export function convertISOToDate(dateISO: string): Date | undefined {
+  const parsed = parseISO(dateISO)
+  if (!parsed.isValid) return
+  return new Date(parsed.year, parsed.month - 1, parsed.day, 12) // Noon to avoid timezone issues
+}
+
+export function convertDateToISO(date: Date): string | undefined {
+  const dateISO = DateTime.fromJSDate(date, { zone: TIME_ZONE }).toISODate()
+  return dateISO ?? undefined
+}
