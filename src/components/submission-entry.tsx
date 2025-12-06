@@ -42,7 +42,7 @@ export function SubmissionEntry({ submission }: Props) {
   }
 
   return (
-    <div className="rounded-lg border border-[#eee] p-3 sm:p-4">
+    <div className="rounded-lg border p-3 sm:p-4">
       <div className="flex flex-col gap-4">
         <p className="text-lg font-semibold leading-snug text-gray-900 sm:text-xl">
           {submission.punchline}
