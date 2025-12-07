@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { analyzeJoke } from "@/lib/ai"
+import { analyzeJoke } from "@/lib/ai/joke-analyzer"
 
 export async function POST(req: NextRequest) {
   if (process.env.NODE_ENV !== "development") {

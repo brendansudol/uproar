@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server"
-import { analyzeJoke, moderateJokeSubmission } from "@/lib/ai"
+import { analyzeJoke } from "@/lib/ai/joke-analyzer"
+import { moderateJokeSubmission } from "@/lib/ai/joke-moderator"
 import { errorResponse, successResponse } from "@/lib/api-responses"
 import { createClient } from "@/lib/supabase/server"
 

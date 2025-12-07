@@ -1,8 +1,8 @@
 import "dotenv/config"
 import fs from "fs"
 import path from "path"
-import { explainJoke } from "../lib/ai/jokeExplainer.ts"
-import { generateJokeHelp } from "../lib/ai/jokeHelper.ts"
+import { explainJoke } from "../lib/ai/joke-explainer.ts"
+import { generateJokeHelp } from "../lib/ai/joke-helper.ts"
 
 type Joke = {
   id: string

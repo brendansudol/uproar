@@ -1,8 +1,4 @@
-import OpenAI from "openai"
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-})
+import { extractTextContent, getOpenAIClient } from "./utils"
 
 const SYSTEM_PROMPT = `
 You are a comedy ideation assistant.
@@ -26,6 +22,7 @@ export async function generateJokeHelp(options: {
 }): Promise<string> {
   const { setup, punchline, tags, model = "gpt-5.1" } = options
 
+  const openai = getOpenAIClient()
   const userContent = [
     "Setup:",
     setup,
@@ -51,10 +48,6 @@ export async function generateJokeHelp(options: {
   })
 
   const message = completion.choices[0]?.message
-  const content =
-    typeof message?.content === "string"
-      ? message.content
-      : ((message?.content as any)?.[0]?.text ?? "") // eslint-disable-line @typescript-eslint/no-explicit-any
 
-  return content.trim()
+  return extractTextContent(message, "OpenAI response was empty for joke help")
 }

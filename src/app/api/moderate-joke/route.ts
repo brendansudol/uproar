@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { moderateJokeSubmission } from "@/lib/ai"
+import { moderateJokeSubmission } from "@/lib/ai/joke-moderator"
 
 export async function POST(req: NextRequest) {
   try {
