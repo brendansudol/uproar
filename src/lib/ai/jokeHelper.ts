@@ -54,7 +54,7 @@ export async function generateJokeHelp(options: {
   const content =
     typeof message?.content === "string"
       ? message.content
-      : ((message?.content as any)?.[0]?.text ?? "")
+      : ((message?.content as any)?.[0]?.text ?? "") // eslint-disable-line @typescript-eslint/no-explicit-any
 
   return content.trim()
 }
