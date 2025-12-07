@@ -9,6 +9,7 @@
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "import:jokes": "ts-node ./src/scripts/import-jokes.ts",
+    "enrich:jokes": "ts-node ./src/scripts/enrich-jokes.ts",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,css,md,mdx,json}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,css,md,mdx,json}\""
   },
@@ -29,6 +30,7 @@
     "lucide-react": "^0.552.0",
     "luxon": "^3.7.2",
     "next": "16.0.1",
+    "openai": "^6.10.0",
     "react": "19.2.0",
     "react-day-picker": "^9.11.2",
     "react-dom": "19.2.0",
