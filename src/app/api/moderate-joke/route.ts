@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server"
-import { moderateJokeSubmission } from "@/lib/ai/joke-moderator"
+import { moderateJoke } from "@/lib/ai"
 
 export async function POST(req: NextRequest) {
   try {
     const { punchline } = (await req.json()) as { punchline: string }
-    const moderation = await moderateJokeSubmission(punchline)
+    const moderation = await moderateJoke({ input: punchline })
     return NextResponse.json({ ok: true, data: moderation }, { status: 200 })
   } catch (error) {
     console.error("[POST /api/moderate-joke] Error:", error)

@@ -1,6 +1,5 @@
 import { NextRequest } from "next/server"
-import { analyzeJoke } from "@/lib/ai/joke-analyzer"
-import { moderateJokeSubmission } from "@/lib/ai/joke-moderator"
+import { analyzeJoke, moderateJoke } from "@/lib/ai"
 import { errorResponse, successResponse } from "@/lib/api-responses"
 import { createClient } from "@/lib/supabase/server"
 
@@ -31,7 +30,7 @@ export async function POST(req: NextRequest) {
       return errorResponse("Joke not found.", 404)
     }
 
-    const moderation = await moderateJokeSubmission(punchline)
+    const moderation = await moderateJoke({ input: punchline })
     console.log("Moderation result:", moderation)
 
     if (moderation.flagged) {
@@ -41,7 +40,7 @@ export async function POST(req: NextRequest) {
 
     const { setup } = joke.data
     const completeJoke = `${setup} ${punchline}`
-    const analysis = await analyzeJoke(completeJoke)
+    const analysis = await analyzeJoke({ joke: completeJoke })
     console.log("Joke analysis:", analysis)
 
     const submission = await supabase

@@ -1,21 +1,17 @@
-import { clampNumber, extractTextContent, getOpenAIClient, parseJsonContent } from "./utils"
+import { getOpenAIClient } from "./client"
+import { clampNumber, extractTextContent, parseJsonContent } from "./utils"
 
 const JOKE_ANALYSIS_MODEL = process.env.OPENAI_JOKE_MODEL ?? "gpt-4o-mini"
 
 const SYSTEM_PROMPT =
   "You are a veteran stand-up comedian. Evaluate jokes succinctly using the requested JSON schema only."
 
-export type JokeAnalysisResult = {
+interface Return {
   rating: number
   analysis: string
 }
 
-type JokeAnalysisResponse = {
-  rating: number
-  analysis: string
-}
-
-export async function analyzeJoke(joke: string): Promise<JokeAnalysisResult> {
+export async function analyzeJoke({ joke }: { joke: string }): Promise<Return> {
   const openai = getOpenAIClient()
 
   const completion = await openai.chat.completions.create({
@@ -53,12 +49,12 @@ export async function analyzeJoke(joke: string): Promise<JokeAnalysisResult> {
     ],
   })
 
-  const message = completion.choices[0]?.message
-  const content = extractTextContent(message, "OpenAI response was empty for joke analysis")
-  const parsed = parseJsonContent<JokeAnalysisResponse>(
-    content,
-    "Joke analysis response parsing failed",
+  const content = extractTextContent(
+    completion.choices[0]?.message,
+    "OpenAI response was empty for joke analysis",
   )
+
+  const parsed = parseJsonContent<Return>(content, "Joke analysis response parsing failed")
 
   return {
     rating: clampNumber(typeof parsed.rating === "number" ? parsed.rating : 0, 0, 10),

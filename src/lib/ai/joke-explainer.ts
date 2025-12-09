@@ -1,4 +1,5 @@
-import { extractTextContent, getOpenAIClient } from "./utils"
+import { getOpenAIClient } from "./client"
+import { extractTextContent } from "./utils"
 
 const SYSTEM_PROMPT = `
 You are a professional comedy-writing coach.
@@ -17,14 +18,17 @@ Guidelines:
  * Explain why a joke is funny and why the punchline works well.
  * Defaults to gpt-5.1 but allows gpt-5-pro for higher quality.
  */
-export async function explainJoke(options: {
+export async function explainJoke({
+  setup,
+  punchline,
+  model = "gpt-5.1",
+}: {
   setup: string
   punchline: string
   model?: string
-}): Promise<string> {
-  const { setup, punchline, model = "gpt-5.1" } = options
-
+}): Promise<{ explanation: string }> {
   const openai = getOpenAIClient()
+
   const userContent = [
     "Setup:",
     setup,
@@ -47,7 +51,10 @@ export async function explainJoke(options: {
     ],
   })
 
-  const message = completion.choices[0]?.message
+  const explanation = extractTextContent(
+    completion.choices[0]?.message,
+    "OpenAI response was empty for joke explanation",
+  ).trim()
 
-  return extractTextContent(message, "OpenAI response was empty for joke explanation")
+  return { explanation }
 }

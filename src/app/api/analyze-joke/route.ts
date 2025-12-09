@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { analyzeJoke } from "@/lib/ai/joke-analyzer"
+import { analyzeJoke } from "@/lib/ai"
 
 export async function POST(req: NextRequest) {
   if (process.env.NODE_ENV !== "development") {
@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
   try {
     const { setup, punchline } = (await req.json()) as { setup: string; punchline: string }
     const completeJoke = `${setup} ${punchline}`
-    const analysis = await analyzeJoke(completeJoke)
+    const analysis = await analyzeJoke({ joke: completeJoke })
     return NextResponse.json({ ok: true, data: { analysis } }, { status: 200 })
   } catch (error) {
     console.error("[POST /api/analyze-joke] Error:", error)

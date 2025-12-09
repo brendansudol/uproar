@@ -129,7 +129,7 @@ const requireNonEmpty = (value: string, field: string) => {
 
 const fetchHelp = (joke: Joke, options: Options) =>
   callWithRetry(async () => {
-    const help = await generateJokeHelp({
+    const { help } = await generateJokeHelp({
       setup: joke.setup,
       punchline: joke.punchline,
       tags: joke.tags,
@@ -140,7 +140,7 @@ const fetchHelp = (joke: Joke, options: Options) =>
 
 const fetchExplanation = (joke: Joke, options: Options) =>
   callWithRetry(async () => {
-    const explanation = await explainJoke({
+    const { explanation } = await explainJoke({
       setup: joke.setup,
       punchline: joke.punchline,
       model: options.model,

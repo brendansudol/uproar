@@ -1,4 +1,5 @@
-import { extractTextContent, getOpenAIClient } from "./utils"
+import { getOpenAIClient } from "./client"
+import { extractTextContent } from "./utils"
 
 const SYSTEM_PROMPT = `
 You are a comedy ideation assistant.
@@ -11,18 +12,19 @@ Guidelines:
 - Keep it concise and specific.
 `.trim()
 
-/**
- * Produce 2-3 creative directions (semicolon-separated) to inspire a punchline.
- */
-export async function generateJokeHelp(options: {
+export async function generateJokeHelp({
+  setup,
+  punchline,
+  tags,
+  model = "gpt-5.1",
+}: {
   setup: string
   punchline: string
   tags?: string
   model?: string
-}): Promise<string> {
-  const { setup, punchline, tags, model = "gpt-5.1" } = options
-
+}): Promise<{ help: string }> {
   const openai = getOpenAIClient()
+
   const userContent = [
     "Setup:",
     setup,
@@ -47,7 +49,10 @@ export async function generateJokeHelp(options: {
     ],
   })
 
-  const message = completion.choices[0]?.message
+  const content = extractTextContent(
+    completion.choices[0]?.message,
+    "OpenAI response was empty for joke help",
+  ).trim()
 
-  return extractTextContent(message, "OpenAI response was empty for joke help")
+  return { help: content }
 }
