@@ -2,8 +2,9 @@ export interface Joke {
   id: string
   setup: string
   punchline: string | null
-  commentary: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  commentary: string | null
   activeDate: string | null
+  help: string | null
 }
 
 export interface Submission {

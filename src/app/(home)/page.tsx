@@ -6,7 +6,7 @@ import { JokeView } from "@/components/joke-view"
 import { checkIsAnnouncementBannerDismissed } from "@/lib/cookie-utils"
 import { getJoke } from "@/lib/supabase/queries"
 
-const DATE = "2025-01-05"
+const DATE = "2026-01-05"
 
 export default async function Home() {
   const isBannerDismissed = await checkIsAnnouncementBannerDismissed()

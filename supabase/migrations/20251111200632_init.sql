@@ -12,7 +12,8 @@ create table jokes (
   setup       text not null,
   punchline   text,
   active_date date,
-  commentary  jsonb,
+  help        text,
+  commentary  text,
   metadata    jsonb
 );
 

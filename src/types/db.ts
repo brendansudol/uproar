@@ -40,7 +40,8 @@ export type Database = {
       jokes: {
         Row: {
           active_date: string | null
-          commentary: Json | null
+          commentary: string | null
+          help: string | null
           id: string
           metadata: Json | null
           punchline: string | null
@@ -48,7 +49,8 @@ export type Database = {
         }
         Insert: {
           active_date?: string | null
-          commentary?: Json | null
+          commentary?: string | null
+          help?: string | null
           id?: string
           metadata?: Json | null
           punchline?: string | null
@@ -56,7 +58,8 @@ export type Database = {
         }
         Update: {
           active_date?: string | null
-          commentary?: Json | null
+          commentary?: string | null
+          help?: string | null
           id?: string
           metadata?: Json | null
           punchline?: string | null

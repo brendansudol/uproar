@@ -27,7 +27,7 @@ export function JokePunchlineFromComedian({ joke }: Props) {
           </div>
           <div className="ml-3">
             <p className="text-sm text-sky-700 dark:text-sky-300">
-              {JSON.stringify(joke.commentary ?? {})}
+              {joke.commentary ?? "No commentary available."}
             </p>
           </div>
         </div>

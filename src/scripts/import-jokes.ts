@@ -4,7 +4,8 @@ import fs from "fs"
 import { DateTime } from "luxon"
 import path from "path"
 
-const START_DATE = DateTime.fromISO("2025-01-01", { zone: "utc" })
+const START_DATE = DateTime.fromISO("2026-01-01", { zone: "utc" })
+const JOKE_FILE = "src/data/jokes-sample.enriched.json"
 
 async function main() {
   const supabase = createClient(
@@ -12,7 +13,7 @@ async function main() {
     process.env.SUPABASE_SECRET_KEY!,
   )
 
-  const jsonPath = path.join(process.cwd(), "src/data/jokes.json")
+  const jsonPath = path.join(process.cwd(), JOKE_FILE)
   const raw = fs.readFileSync(jsonPath, "utf8")
   const data = JSON.parse(raw)
   const sample = data.slice(0, 10)
@@ -23,6 +24,8 @@ async function main() {
       setup: item.setup,
       punchline: item.punchline,
       active_date: START_DATE.plus({ days: idx }).toISODate(),
+      help: item.help,
+      commentary: item.explanation,
     }
   })
 

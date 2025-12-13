@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Separator } from "@/components/ui/separator"
 import { Spinner } from "@/components/ui/spinner"
 import { Textarea } from "@/components/ui/textarea"
@@ -50,7 +51,16 @@ export function JokeInProgress({ joke }: Props) {
               aria-label="Your punchline"
             />
             <div className="flex flex-wrap justify-end gap-3">
-              <Button variant="outline">Need hint?</Button>
+              {joke.help && (
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button variant="outline">Need hint?</Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="max-w-sm text-sm leading-relaxed">
+                    {joke.help}
+                  </PopoverContent>
+                </Popover>
+              )}
               <Button disabled={punchline.length === 0 || isLoading} onClick={handleSubmit}>
                 {isLoading && <Spinner />}
                 Submit

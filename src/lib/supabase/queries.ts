@@ -5,7 +5,7 @@ export async function getJoke(dateISO: string = "2025-01-01") {
 
   const { data, error } = await supabase
     .from("jokes")
-    .select("id, setup, punchline, commentary, activeDate:active_date")
+    .select("id, setup, punchline, commentary, activeDate:active_date, help, commentary")
     .eq("active_date", dateISO)
     .maybeSingle()
 
