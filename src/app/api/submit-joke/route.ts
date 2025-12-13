@@ -45,7 +45,15 @@ export async function POST(req: NextRequest) {
 
     const submission = await supabase
       .from("submissions")
-      .insert([{ joke_id: jokeId, user_id: userId, setup, punchline, analysis }])
+      .insert([
+        {
+          joke_id: jokeId,
+          user_id: userId,
+          setup,
+          punchline,
+          analysis: analysis as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+        },
+      ])
       .select("id, setup, punchline, createdAt:created_at, analysis")
       .single()
 
