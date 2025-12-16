@@ -1,9 +1,10 @@
 "use client"
 
-import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { useState, useTransition } from "react"
 import { Button } from "@/components/ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { Separator } from "@/components/ui/separator"
+import { Skeleton } from "@/components/ui/skeleton"
 import { Spinner } from "@/components/ui/spinner"
 import { Textarea } from "@/components/ui/textarea"
 import { fetchPost } from "@/lib/utils"
@@ -15,9 +16,14 @@ interface Props {
 }
 
 export function JokeInProgress({ joke }: Props) {
+  const router = useRouter()
+
   const [punchline, setPunchline] = useState("")
   const [userEntry, setUserEntry] = useState<Submission>()
   const [isLoading, setIsLoading] = useState(false)
+  const [isRefreshing, startTransition] = useTransition()
+
+  const isPending = isLoading || isRefreshing
 
   const handleSubmit = async () => {
     try {
@@ -25,6 +31,7 @@ export function JokeInProgress({ joke }: Props) {
       const response = await fetchPost("/api/submit-joke", { jokeId: joke.id, punchline })
       if (!response.ok) throw new Error(response.error ?? "Unknown error")
       setUserEntry(response.data as Submission)
+      startTransition(() => router.refresh())
     } catch (error) {
       console.error(error)
     } finally {
@@ -36,13 +43,13 @@ export function JokeInProgress({ joke }: Props) {
     <div className="space-y-6">
       <JokeSetup joke={joke} />
 
-      {userEntry == null && (
-        <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 sm:p-8">
-          <header className="mb-3 flex items-start justify-between gap-3">
-            <div className="text-md font-semibold uppercase tracking-wide bg-yellow-200">
-              Your punchline
-            </div>
-          </header>
+      <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 sm:p-8">
+        <header className="mb-3 flex items-start justify-between gap-3">
+          <div className="text-md font-semibold uppercase tracking-wide bg-yellow-200">
+            Your punchline
+          </div>
+        </header>
+        {userEntry == null ? (
           <div className="pt-1 space-y-3">
             <Textarea
               value={punchline}
@@ -61,24 +68,21 @@ export function JokeInProgress({ joke }: Props) {
                   </PopoverContent>
                 </Popover>
               )}
-              <Button disabled={punchline.length === 0 || isLoading} onClick={handleSubmit}>
-                {isLoading && <Spinner />}
+              <Button disabled={punchline.length === 0 || isPending} onClick={handleSubmit}>
+                {isPending && <Spinner />}
                 Submit
               </Button>
             </div>
           </div>
-        </section>
-      )}
-
-      {userEntry != null && (
-        <>
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 sm:p-8">
-            <p className="text-sm text-gray-500">Your punchline has been submitted!</p>
-            <Separator className="my-6" />
-            <div>TODO: community submissions</div>
+        ) : (
+          <div className="pt-1 space-y-2">
+            <Skeleton className="h-4 w-5/6" />
+            <Skeleton className="h-4 w-4/6" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-3/6" />
           </div>
-        </>
-      )}
+        )}
+      </section>
     </div>
   )
 }

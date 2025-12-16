@@ -13,7 +13,7 @@ export function Header() {
           aria-label="Uproar wordmark"
         >
           <span>UPR</span>
-          <EmojiSvg className="inline-block size-11 -ml-[2px] -mr-[4px] origin-center rotate-60" />
+          <EmojiSvg className="inline-block size-12 -ml-[2px] -mr-[4px] origin-center rotate-60" />
           <span>AR</span>
         </Link>
         <div className="text-sm">A daily joke challenge</div>
