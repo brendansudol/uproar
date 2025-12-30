@@ -23,7 +23,10 @@ export async function getUserSubmission(jokeId: string) {
   const userId = userData.user?.id
 
   if (userId == null) {
-    return
+    return {
+      submission: undefined,
+      isAuthed: false,
+    }
   }
 
   const { data, error } = await supabase
@@ -37,5 +40,8 @@ export async function getUserSubmission(jokeId: string) {
     throw new Error(error.message)
   }
 
-  return data?.[0]
+  return {
+    submission: data?.[0],
+    isAuthed: true,
+  }
 }

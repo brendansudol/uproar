@@ -13,9 +13,10 @@ import { JokeSetup } from "./joke-setup"
 
 interface Props {
   joke: Joke
+  isAuthed: boolean
 }
 
-export function JokeInProgress({ joke }: Props) {
+export function JokeInProgress({ joke, isAuthed }: Props) {
   const router = useRouter()
 
   const [punchline, setPunchline] = useState("")
@@ -24,8 +25,11 @@ export function JokeInProgress({ joke }: Props) {
   const [isRefreshing, startTransition] = useTransition()
 
   const isPending = isLoading || isRefreshing
+  const isSubmitDisabled = isPending || !isAuthed || punchline.trim().length === 0
 
   const handleSubmit = async () => {
+    if (!isAuthed) return
+
     try {
       setIsLoading(true)
       const response = await fetchPost("/api/submit-joke", { jokeId: joke.id, punchline })
@@ -42,7 +46,6 @@ export function JokeInProgress({ joke }: Props) {
   return (
     <div className="space-y-6">
       <JokeSetup joke={joke} />
-
       <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 sm:p-8">
         <header className="mb-3 flex items-start justify-between gap-3">
           <div className="text-md font-semibold uppercase tracking-wide bg-yellow-200">
@@ -68,7 +71,7 @@ export function JokeInProgress({ joke }: Props) {
                   </PopoverContent>
                 </Popover>
               )}
-              <Button disabled={punchline.length === 0 || isPending} onClick={handleSubmit}>
+              <Button disabled={isSubmitDisabled} onClick={handleSubmit}>
                 {isPending && <Spinner />}
                 Submit
               </Button>
